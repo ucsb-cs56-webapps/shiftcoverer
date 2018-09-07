@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+{{> head }}
+<body>
+ {{> nav }}
+ <h2>Post a shift</h2>
+ <form action="/createresult" method="POST">
+    Time:<br>
+    <input type="text" name="time" value="12:00">
+    <br>
+    Job:<br>
+    <input type="text" name="job" value="Bakery">
+    <br><br>
+    <input type="submit" value="Submit">
+  </form> 
+ {{> bootstrap-from-cdn-body }}
+</body>
+</html>
