@@ -8,7 +8,7 @@
 
     <!-- project coordinates - values which uniquely identify this project -->
 
-  <groupId>edu.ucsb.cs56.pconrad</groupId>
+  <groupId>shiftcoverer</groupId>
   <artifactId>spark-mustache-demo-02</artifactId>
   <version>1.0</version>
   <url>https://ucsb-cs56-pconrad.github.io/sparkjava-mustache-example</url>
@@ -23,8 +23,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <userDefinedMainClass>edu.ucsb.cs56.pconrad.SparkMustacheDemo02</userDefinedMainClass>
-    <userDefinedHerokuApp>TBD</userDefinedHerokuApp>
+    <userDefinedMainClass>shiftcoverer.SparkMustacheDemo02</userDefinedMainClass>
+    <userDefinedHerokuApp>denniszzh-shiftcoverer</userDefinedHerokuApp>
   </properties>
 
   <!-- what other software does our project depend on (third-party JARs, etc.) -->
@@ -65,6 +65,19 @@
       <groupId>com.sparkjava</groupId>
       <artifactId>spark-core</artifactId>
       <version>2.5</version>
+    </dependency>
+
+    <!-- MongoDB NoSQL Database -->
+    <dependency>
+      <groupId>org.mongodb</groupId>
+      <artifactId>mongo-java-driver</artifactId>
+      <version>3.8.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.2.4</version>
     </dependency>
     
   </dependencies>
@@ -157,7 +170,7 @@
           <processTypes>
             <!-- Tell Heroku how to launch your application -->
             <!-- You might have to remove the ./ in front   -->
-            <web>java $JAVA_OPTS -jar target/${project.name}-${project.version}-jar-with-dependencies.jar</web>
+            <web>java $JAVA_OPTS -jar target/spark-mustache-demo-02-1.0-jar-with-dependencies.jar</web>
 
           </processTypes>
   </configuration>
