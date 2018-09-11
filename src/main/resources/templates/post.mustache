@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+{{> head }}
+<body>
+ {{> nav }}
+ <h2>Post a shift</h2>
+ <form action="/createresult" method="POST">
+    Time:<br>
+    <input type="text" id= "time" name="time" value="12:00">
+    <br>
+    Job:<br>
+    <input type="text" id= "job" name="job" value="Bakery">
+    <br>
+    Name:<br>
+    <input type="text" id= "name" name="name" value="John">
+    <br>
+    Email:<br>
+    <input type="text" id= "email" name="email" value="John@email.com">
+    <br>
+    <input type="submit" value="Submit">
+  </form> 
+ {{> bootstrap-from-cdn-body }}
+</body>
+</html>
