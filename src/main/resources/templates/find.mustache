@@ -4,14 +4,9 @@
 <body>
  {{> nav }}
  <h2>Find a shift</h2>
-<p>Enter the key of the Shift you want to cover.</p>
- <form action="/joinresult" method="get">
-    Key of your Shift:
- <br>
-  <input type="text" name="key" value="jfu48rhgkbhdh">
- <br>
- <br>
-  <input type="submit" value="Join">
+<h4>These are the available shifts that need to be covered!</h4>
+ <form action="/removeresult" method="post">
+    <p>{{allShifts}}</p>
  </form> 
  {{> bootstrap-from-cdn-body }}
 </body>

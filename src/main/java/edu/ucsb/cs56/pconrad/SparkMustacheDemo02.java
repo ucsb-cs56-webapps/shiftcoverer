@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
+
 
 import spark.ModelAndView;
 import spark.template.mustache.MustacheTemplateEngine;
@@ -55,14 +57,26 @@ public class SparkMustacheDemo02 {
 		String uriString = mongoDBUri(envVars);
 
         port(getHerokuAssignedPort());
-		
-		Map map = new HashMap();
+
+        Map map =new HashMap();
        
         // hello.mustache file is in resources/templates directory
         get("/", (rq, rs) -> new ModelAndView(map, "home.mustache"), new MustacheTemplateEngine());
 
 		get("/post", (rq, rs) -> new ModelAndView(map, "post.mustache"), new MustacheTemplateEngine());
-        get("/find", (rq, rs) -> new ModelAndView(map, "find.mustache"), new MustacheTemplateEngine());
+        
+        get("/find", (rq, rs) -> {
+
+        	ArrayList<String> shiftArrayList = readFromDB(uriString);
+			final String displayText = makeString(shiftArrayList);
+
+        	Map model = new HashMap();
+        	model.put("allShifts", displayText);
+
+        	return new ModelAndView(model, "find.mustache");
+        }, new MustacheTemplateEngine());
+		
+
 		post("/createresult", (rq, rs) -> {
 			// log.debug("***************time = " + rq.queryParams("time"));
 			// log.debug("***************job = " + rq.queryParams("job"));
@@ -71,17 +85,20 @@ public class SparkMustacheDemo02 {
 
 			writeToDB(newShift, uriString);
 
-			map.put("time", rq.queryParams("time"));
-			map.put("job", rq.queryParams("job"));
-			map.put("name", rq.queryParams("name"));
-			map.put("email", rq.queryParams("email"));
+			Map shiftMap = new HashMap();
+			shiftMap.put("time", rq.queryParams("time"));
+			shiftMap.put("job", rq.queryParams("job"));
+			shiftMap.put("name", rq.queryParams("name"));
+			shiftMap.put("email", rq.queryParams("email"));
 
 
-			return new ModelAndView(map, "createresult.mustache");
+			return new ModelAndView(shiftMap, "createresult.mustache");
 		}, new MustacheTemplateEngine());
 		
 
-		get("/joinresult", (rq, rs) -> new ModelAndView(map, "joinresult.mustache"), new MustacheTemplateEngine());
+		get("/joinresult", (rq, rs) -> {
+			 return new ModelAndView(map, "joinresult.mustache");
+		}, new MustacheTemplateEngine());
 	}
 	
     static int getHerokuAssignedPort() {
@@ -143,6 +160,14 @@ public class SparkMustacheDemo02 {
 	// 	return newShift;
 	// }
 
+	static String makeString(ArrayList<String> text) {
+        String resultString = "";
+        for (String s: text) {
+            resultString += "<b> " + s + "</b><br/>";
+        }
+        return resultString;
+    }
+
 
 	public static void writeToDB (shift newShift, String uriString){
 		//connect to database
@@ -164,21 +189,32 @@ public class SparkMustacheDemo02 {
 
 	}
 
+	public static ArrayList<String> readFromDB(String uriString){
 
+		MongoClientURI uri  = new MongoClientURI(uriString); 
+        MongoClient client = new MongoClient(uri);
+        MongoDatabase db = client.getDatabase(uri.getDatabase());
 
+        MongoCollection<Document> shiftsInfo = db.getCollection("shiftsInfo");
 
+        MongoCursor<Document> cursor = shiftsInfo.find().iterator();
 
+        ArrayList<String> prettyQuery = new ArrayList<>();
 
+        try {
+            while (cursor.hasNext()) {
+                Document doc = cursor.next();
+                String currShift = "Job = " + doc.get("job") + "   " + "Time = " + doc.get("time") + "   " +
+                    "Name =  " + doc.get("name") + "   " + "email = " + doc.get("email") + "   ";
+                  
+                prettyQuery.add(currShift);
+            }
+        } finally {
+            cursor.close();
+        }
 
-
-
-
-
-
-
-
-
-
+        return prettyQuery;
+	}
 
 
 	
