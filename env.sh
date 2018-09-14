@@ -1,5 +1,0 @@
-export MONGODB_HOST=ds239692.mlab.com
-export MONGODB_NAME=denniszzh_sampledb
-export MONGODB_PASS=zzh971013
-export MONGODB_PORT=39692
-export MONGODB_USER=shiftcoverer
