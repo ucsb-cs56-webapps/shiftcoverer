@@ -1,7 +1,7 @@
 # shiftcoverer
 Find your shift cover!
 
-webapp link: https://denniszzh-shiftcoverer.herokuapp.com/
+The working webapp link: https://denniszzh-shiftcoverer.herokuapp.com/
 
 # To use
 
